@@ -1,18 +1,18 @@
 package by.htp.library.entity;
 
-import java.util.Calendar;
+import java.sql.Date;
 
 public class Author {
 
 	private String name;
 	private String surname;
-	private Calendar birthDate;
+	private Date birthDate;
 
 	public Author() {
 
 	}
 
-	public Author(String name, String surname, Calendar birthDate) {
+	public Author(String name, String surname, Date birthDate) {
 		super();
 		this.name = name;
 		this.surname = surname;
@@ -35,11 +35,11 @@ public class Author {
 		this.surname = surname;
 	}
 
-	public Calendar getBirthDate() {
+	public Date getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(Calendar birthDate) {
+	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
 
