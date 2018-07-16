@@ -26,11 +26,9 @@ public class AuthorDaoImpl {
 			PreparedStatement ps = conn.prepareStatement(SELECT_AUTHOR_BYID);
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
-
 			if (rs.next()) {
 				author = buildAuthor(rs);
 			}
-
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -42,6 +40,7 @@ public class AuthorDaoImpl {
 		Author author = new Author();
 		author.setName(rs.getString("name"));
 		author.setSurname(rs.getString("surname"));
+		author.setBirthDate(rs.getDate("birthdate"));
 		return author;
 	}
 
