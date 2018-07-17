@@ -20,8 +20,7 @@ import by.htp.library.entity.Book;
 public class BookDaoImpl implements BookDao {
 
 	private static final String SELECT_BOOK_BYID = "SELECT * from book WHERE id_book = ?";
-	private static final String ADD_BOOK = "INSERT INTO book (title, id_author)"
-			+ "VALUES (?, (SELECT id_author FROM author WHERE name=? AND surname=? AND birthdate=?))";
+	private static final String ADD_BOOK = "INSERT INTO book (title, id_author) VALUES (?, ?)";
 	private static final String DELETE_BOOK_BYID = "DELETE FROM book WHERE id_book = ?";
 	private static final String SELECT_BOOKS_LIST = "SELECT * FROM book JOIN author ON book.id_author=author.id_author ORDER BY book.title";
 
@@ -59,21 +58,15 @@ public class BookDaoImpl implements BookDao {
 
 	@Override
 	public int add(Book book) {
-		
+
 		int result = 0;
 		
+		AuthorDaoImpl authDao = new AuthorDaoImpl();
 		try (Connection conn = DriverManager.getConnection(getUrl(), getLogin(), getPass())) {
-			String title = book.getTitle();
-			
-			Date birthday = book.getAuthor().getBirthDate();
-
 			PreparedStatement ps = conn.prepareStatement(ADD_BOOK);
-			
 			ps.setString(1, book.getTitle());
-			ps.setString(2, book.getAuthor().getName());
-			ps.setString(3, book.getAuthor().getSurname());
-			ps.setDate(4, book.getAuthor().getBirthDate());
-			ps.executeUpdate();
+			ps.setInt(2, authDao.add(book.getAuthor()));
+			result = ps.executeUpdate();
 			conn.close();
 
 		} catch (SQLException se) {
